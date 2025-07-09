@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do-List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="box">
+        <h1>To-Do-List</h1>
+        <form method="POST" action="/add">
+            <input type="text" name="task" id="in" placeholder="Enter a Task">
+        <button id="addbtn" type="submit">ADD</button>
+        </form>
+        <ul id="list">
+            {% for task in tasks %}
+            <li>
+                <form method="POST" action="/toggle/{{ loop.index0 }}" style="display:inline;">
+                <input type="checkbox" onchange="this.form.submit()" {% if task.done %}checked{% endif %}>
+                </form>
+                <span class="task {% if task.done %}completed{% endif %}">
+                {{ task.text }}
+                </span>
+                <form method="POST" action="/delete/{{ loop.index0 }}" style="display:inline;">
+                <button class="dlt" type="submit">&times;</button>
+            </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
